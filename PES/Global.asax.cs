@@ -19,5 +19,17 @@ namespace PES
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        protected void Application_BeginRequest()
+        {
+            string[] allowedOrigin = new string[] { "http://localhost:22292/" };
+            var origin = HttpContext.Current.Request.Headers["Origin"];
+            if (origin != null && allowedOrigin.Contains(origin))
+            {
+                HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", origin);
+                HttpContext.Current.Response.AddHeader("Access-Control-Allow-Methods", "GET,POST");
+                //Need to add more later , will see when required
+            }
+        }
     }
 }
